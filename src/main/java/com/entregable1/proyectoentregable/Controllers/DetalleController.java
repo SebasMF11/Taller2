@@ -28,6 +28,7 @@ public class DetalleController {
         model.addAttribute("detalles", detalles);
         model.addAttribute("detalle", new Detalle());
         model.addAttribute("titulo", "Lista de detalles");
+        //gituwu
         return "Detalle/index";
     }
 
