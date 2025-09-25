@@ -1,0 +1,85 @@
+body{
+  margin: 4%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+table,th, td  {
+  border-color: #1e1e1f;
+  border-radius: 1%;
+  padding: 10px;
+  border: 1px;
+  border-style:solid ;
+  border-collapse: collapse;
+}
+
+thead{
+  background-color: rgb(66, 65, 65);
+  color: white;
+}
+
+
+.btn{
+  padding: 8px 18px;
+  background-color: rgb(32, 202, 97);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: small;
+}
+
+.textEli{
+  text-decoration: none;
+  color: white;
+}
+
+.btn:hover{
+  background-color: rgb(36, 186, 94);
+}
+
+.btn-form1{
+  padding: 5px 5px;
+  background-color: #f5df35;
+}
+
+.btn-form1:hover{
+  background-color: rgb(247, 210, 2);
+}
+
+.btn-form2{
+  padding: 5px 5px;
+  background-color: rgb(255, 102, 46);
+}
+
+.btn-form2:hover{
+  background-color: rgb(236, 77, 20);
+}
+
+.btn-Eli{
+  background-color: #f54235;
+  padding: 7px 7px;
+
+}
+
+.btn-Eli:hover{
+  background-color: #dc1c0e;
+}
+
+.btn-Edi{
+  background-color: #358bf5;
+  padding: 7px 7px;
+}
+
+.btn-Edi:hover{
+  background-color: #0363d8;
+}
+
+#btn-volver{
+  padding: 20px 500px;
+}
+
+.btn-volver{
+  font-size: large;
+  padding: 10px 20px;
+}

@@ -1,0 +1,1 @@
+INSERT INTO Clientes (nombre, apellido, correo, creation_date) VALUES ('Santiaguito', 'Perez', 'correo@correo.correo', NOW())

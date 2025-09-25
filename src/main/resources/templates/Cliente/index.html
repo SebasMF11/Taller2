@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/ClientProd.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cliente</title>
+</head>
+<body>
+    <h1 th:text="${titulo}"></h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Fecha Ingreso</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tr th:each="Cliente : ${clientes}" th:if="${!clientes.isEmpty()}">
+            <form method="post" action="/Cliente/actualizar" th:object="${Cliente}">
+                <input type="hidden" name="id" th:value="${Cliente.id}">
+                
+                <td th:text="${Cliente.id}"></td>
+                
+                <td>
+                    <input type="text" name="nombre" th:value="${Cliente.nombre}"
+                           th:id="'n' + ${Cliente.id}" class="" 
+                           style="border:none; background:transparent;" readonly>
+                </td>
+                
+                <td>
+                    <input type="text" name="apellido" th:value="${Cliente.apellido}"
+                           th:id="'a' + ${Cliente.id}" class="" 
+                           style="border:none; background:transparent;" readonly>
+                </td>
+                
+                <td>
+                    <input type="email" name="correo" th:value="${Cliente.correo}"
+                           th:id="'c' + ${Cliente.id}" class="" 
+                           style="border:none; background:transparent;" readonly>
+                </td>
+                
+                <td th:text="${#dates.format(Cliente.createAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                
+                <td>
+                    <button type="button" th:id="'edit' + ${Cliente.id}" 
+                            th:onclick="'edit(' + ${Cliente.id} + ')'" 
+                            
+                            class= "btn btn-Edi">Editar</button>
+                    
+                    <button type="submit" th:id="'save' + ${Cliente.id}" 
+                            class="btn btn-form1" style="display:none">Guardar</button>
+                    
+                    <button type="button" th:id="'cancel' + ${Cliente.id}" 
+                            th:onclick="'cancel(' + ${Cliente.id} + ')'"
+                            class="btn btn-form2" style="display:none">Cancelar</button>
+
+                    <button class= "btn btn-Eli"> 
+                        <a class="textEli"
+                        th:href="@{/Cliente/eliminar/{id}(id=${Cliente.id})}" 
+                        type="button" >Eliminar</a></button>
+                   
+                </td>
+            </form>
+        </tr>
+
+        <tr> 
+            <form th:action="@{/Cliente/crear}" th:object="${cliente}" method="post">
+                <td>Id</td>
+                <td><input type="text" th:field="*{nombre}" placeholder="Nombre" required></td>
+                <td><input type="text" th:field="*{apellido}" placeholder="Apellido" required></td>
+                <td><input type="email" th:field="*{correo}" placeholder="Correo" required></td>
+                <td>Fecha de creación</td>
+                <td><button type="submit" class="btn">Crear Nuevo Cliente</button></td>
+            </form>
+        </tr>
+    </table>
+
+    <div id="btn-volver">
+        <button  class= "btn btn-volver">
+            <a class="textEli" type="button" th:href="@{/}" >Volver</a></button>
+    </div>
+    
+    <script>
+        let original = {};
+
+        function edit(id) {
+            const n = document.getElementById('n' + id);
+            const a = document.getElementById('a' + id);
+            const c = document.getElementById('c' + id);
+            
+            original[id] = {n: n.value, a: a.value, c: c.value};
+            
+            [n, a, c].forEach(input => {
+                input.readOnly = false;
+                input.style.border = '1px solid #ccc';
+                input.style.padding = '5px';
+                input.setAttribute("required", true);
+            });
+            
+            document.getElementById('edit' + id).style.display = 'none';
+            document.getElementById('save' + id).style.display = 'inline';
+            document.getElementById('cancel' + id).style.display = 'inline';
+            
+            n.focus();
+        }
+
+        function cancel(id) {
+            const n = document.getElementById('n' + id);
+            const a = document.getElementById('a' + id);
+            const c = document.getElementById('c' + id);
+            
+            n.value = original[id].n;
+            a.value = original[id].a;
+            c.value = original[id].c;
+            
+            [n, a, c].forEach(input => {
+                input.readOnly = true;
+                input.style.border = 'none';
+            });
+            
+            document.getElementById('edit' + id).style.display = 'inline';
+            document.getElementById('save' + id).style.display = 'none';
+            document.getElementById('cancel' + id).style.display = 'none';
+            
+            delete original[id];
+        }
+    </script>
+</body>
+</html>

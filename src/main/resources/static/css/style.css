@@ -1,0 +1,49 @@
+body{
+  padding: 60px ;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    justify-content: center;
+}
+
+table{
+    padding: 20px;
+}
+
+.btn{
+  padding: 12px 20px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+#btn_cliente{
+    background-color: rgb(15, 173, 128);
+}
+
+#btn_cliente:hover{
+    background-color: rgb(11, 126, 94);
+}
+
+#btn_producto{
+    background-color: rgb(66, 118, 202);
+}
+
+#btn_producto:hover{
+    background-color: rgb(60, 108, 185);
+}
+
+.box{
+    width: 450px;
+    height: 150px;
+    padding: 20px;
+    background: rgb(244, 244, 244);
+    border-radius: 20px;
+    box-shadow: 0 5px 8px rgb(183, 183, 183);
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0px;
+    margin: auto;
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/ClientProd.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto</title>
+</head>
+<body >
+    <h1  th:text="${titulo}"></h1>
+    <table >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Valor Unitario (COP)</th>
+                <th>Descripcion</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tr th:each="Producto : ${productos}"  th:if="${productos.size()!=0}">
+            <form method="post" action="/Producto/actualizar" th:object="${Producto}">
+                <input type="hidden" name="id" th:value="${Producto.id}">
+                
+                <td th:text="${Producto.id}"></td>
+                
+                <td>
+                    <input type="text" name="nombre" th:value="${Producto.nombre}"
+                           th:id="'n' + ${Producto.id}" class="" 
+                           style="border:none; background:transparent;" readonly>
+                </td>
+                
+                <td>
+                    <input type="number" min="0" step="100" name="valorUnitario" th:value="${Producto.valorUnitario}"
+                           th:id="'a' + ${Producto.id}" class="" 
+                           style="border:none; background:transparent;" readonly>
+                </td>
+                
+                <td>
+                    <input type="text" name="descripcion" th:value="${Producto.descripcion}"
+                           th:id="'c' + ${Producto.id}" class="" 
+                           style="border:none; background:transparent;" readonly>
+                </td>
+                
+                <td>
+                    <input type="number" min="0" step="100" name="stock" th:value="${Producto.stock}"
+                           th:id="'s' + ${Producto.id}" class="" 
+                           style="border:none; background:transparent;" readonly>
+                </td>
+
+                <td>
+                    <button type="button" th:id="'edit' + ${Producto.id}" 
+                            th:onclick="'edit(' + ${Producto.id} + ')'" 
+                            class= "btn btn-Edi">Editar</button>
+                    
+                    <button type="submit" th:id="'save' + ${Producto.id}" 
+                            class="btn btn-form1" style="display:none">Guardar</button>
+                    
+                    <button type="button" th:id="'cancel' + ${Producto.id}" 
+                            th:onclick="'cancel(' + ${Producto.id} + ')'"
+                            class="btn  btn-form2" style="display:none">Cancelar</button>
+
+                    <button class= "btn btn-Eli">
+                    <a  class="textEli" type="button"
+                        th:href="@{/Producto/eliminar/{id}(id=${Producto.id})}" 
+                        >Eliminar</a></button>
+                
+                </td>
+            </form>
+        </tr>
+        <tr> 
+            <form th:action="@{/Producto/crear}" th:object="${producto}" method="post">
+                <td>Id</td>
+                <td><input type="text" th:field="*{nombre}" placeholder="nombre" required></td>
+                <td><input type="number" min="50" th:field="*{valorUnitario}" placeholder="valorUnitario" required></td>
+                <td><input type="text" th:field="*{descripcion}" placeholder="descripcion" required></td>
+                <td><input type="number" min="0" th:field="*{stock}" placeholder="stock" required></td>
+
+                <td><button type="submit" class="btn btn-success">Crear Nuevo Producto<i class="fa fa-plus-square"></i></button></td>
+            </form>
+        </tr>
+    </table>
+    <div id="btn-volver">
+        <button  class= "btn btn-volver">
+            <a class="textEli" type="button" th:href="@{/}" >Volver</a></button>
+    </div>
+    
+    
+    <script>
+        let original = {};
+
+        function edit(id) {
+            const n = document.getElementById('n' + id);
+            const a = document.getElementById('a' + id);
+            const c = document.getElementById('c' + id);
+            const s = document.getElementById('s' + id);
+            
+            original[id] = {n: n.value, a: a.value, c: c.value, s: s.value};
+            
+            [n, a, c, s].forEach(input => {
+                input.readOnly = false;
+                input.style.border = '1px solid #ccc';
+                input.style.padding = '5px';
+                input.setAttribute("required", true);
+            });
+            
+            document.getElementById('edit' + id).style.display = 'none';
+            document.getElementById('save' + id).style.display = 'inline';
+            document.getElementById('cancel' + id).style.display = 'inline';
+            
+            n.focus();
+        }
+
+        function cancel(id) {
+            const n = document.getElementById('n' + id);
+            const a = document.getElementById('a' + id);
+            const c = document.getElementById('c' + id);
+            const s = document.getElementById('s' + id);
+            
+            n.value = original[id].n;
+            a.value = original[id].a;
+            c.value = original[id].c;
+            s.value = original[id].s;
+            
+            [n, a, c, s].forEach(input => {
+                input.readOnly = true;
+                input.style.border = 'none';
+            });
+            
+            document.getElementById('edit' + id).style.display = 'inline';
+            document.getElementById('save' + id).style.display = 'none';
+            document.getElementById('cancel' + id).style.display = 'none';
+            
+            delete original[id];
+        }
+    </script> 
+</body>
+</html>

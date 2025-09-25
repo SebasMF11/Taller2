@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+</head>
+<body>
+    <div class="box">
+        <div>
+            <h3>
+                Escoja una opcion:
+            </h3>
+        </div>
+        <div>
+            <a th:href="@{/Cliente/Listar}" id="btn_cliente" class= "btn">Mostrar clientes😊</a>  
+        
+            <a th:href="@{/Producto/Listar}" id="btn_producto" class= "btn">Mostrar Productos👍</a> 
+            
+            <a th:href="@{}" id="btn_Comprar" class= "btn_compra">Realizar compra😁</a> 
+
+            <a th:href="@{}" id="btn_Factura" class= "btn_compra">Facturas existentes😁</a> 
+            
+        </div>
+    
+    </div>
+</body>
+</html>
