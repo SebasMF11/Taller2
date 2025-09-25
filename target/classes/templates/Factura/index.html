@@ -19,6 +19,29 @@
     boton para crear factura 
     (Validaciones antes de crear, despues de validar se crea realmente la factura)
     -->
+    <tr>
+        <form th:action="@{/Encabezado/crear}" th:object="${Encabezado}" method="post">
+            <td>Id</td>
+            <td><input type="number" th:field="*{id}" placeholder="id" required></td>
+            <td>fecha</td>
+            <td>Subtotal</td>
+            <td>Total</td>
+            <td>Descuento total</td>
+            <td><button type="submit" class="btn">Validar</button></td>
+        </form>
+    </tr>
     
+    <table>
+        <thead>
+            <td>IdProducto</td>
+            <td>Cantidad</td>
+            <td>Valor</td>
+            <td>Descuento</td>
+        </thead>
+        <tbody>
+            
+        </tbody>
+
+    </table>
 </body>
 </html>

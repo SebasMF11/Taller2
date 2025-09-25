@@ -22,7 +22,6 @@
 
         <tr th:each="Cliente : ${clientes}" th:if="${!clientes.isEmpty()}">
             <form method="post" action="/Cliente/actualizar" th:object="${Cliente}">
-                <input type="hidden" name="id" th:value="${Cliente.id}">
                 
                 <td th:text="${Cliente.id}"></td>
                 
