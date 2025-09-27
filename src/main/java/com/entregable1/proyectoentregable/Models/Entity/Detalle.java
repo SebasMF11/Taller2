@@ -17,6 +17,8 @@ public class Detalle {
     private Long idProducto;
     private int cantidad;
     private float valor;
+    private float subtotal;
+    private float total;
     private float descuento;
 
     public Detalle(Long idEncabezado, Long idProducto, int cantidad, float valor, float descuento) {
@@ -25,6 +27,24 @@ public class Detalle {
         this.cantidad = cantidad;
         this.valor = valor;
         this.descuento = descuento;
+        this.subtotal = valor*cantidad;
+        this.total = subtotal-descuento;
+    }
+
+    public float getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(float subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
     }
 
     public Detalle (){

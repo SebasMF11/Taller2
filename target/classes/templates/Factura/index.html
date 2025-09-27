@@ -18,30 +18,68 @@
     Detalle: productos a comprar
     boton para crear factura 
     (Validaciones antes de crear, despues de validar se crea realmente la factura)
-    -->
-    <tr>
-        <form th:action="@{/Encabezado/crear}" th:object="${Encabezado}" method="post">
-            <td>Id</td>
-            <td><input type="number" th:field="*{id}" placeholder="id" required></td>
-            <td>fecha</td>
-            <td>Subtotal</td>
-            <td>Total</td>
-            <td>Descuento total</td>
-            <td><button type="submit" class="btn">Validar</button></td>
-        </form>
-    </tr>
-    
-    <table>
-        <thead>
-            <td>IdProducto</td>
-            <td>Cantidad</td>
-            <td>Valor</td>
-            <td>Descuento</td>
-        </thead>
-        <tbody>
-            
-        </tbody>
 
-    </table>
+
+    ----
+
+
+    Lo que hará el codigo: Validar la informacion de encabezado, y crea encabezado
+    despues empieza a crear detalles, uno por uno.
+
+    NOTA: 
+        Arreglar las entidades: los atributos subtotal y total son operaciones
+    por lo tanto se debe crear metodos para actualizar subtotal y total
+    por si la entidad se crea vacia.
+
+    -->
+    <form th:action="@{/Encabezado/editar}" th:object="${Encabezado}">
+        <table>
+            <tr>
+                <form th:action="@{/Encabezado/crear}"  method="post">
+                    <td>Id</td>
+                    <td><input type="number" th:field="*{id}" placeholder="id" required></td>
+                    <td>fecha</td>
+                    <td>Subtotal</td>
+                    <td>Total</td>
+                    <td>Descuento total</td>
+                    <td><button type="submit" class="btn">Validar</button></td>
+                </form>
+            </tr>
+
+            <tr>
+                <td>IdProducto</td>
+                <td>Cantidad</td>
+                <td>ValorUnitario</td>
+                <td>Descuento</td>
+                <td>Subtotal</td>
+                <td>Total</td>
+            </tr>
+            <tr th:each = "Detalle : ${detalles}" th:if="${detalles.getIdEncabezado()}==${Encabezado.getId()}">
+                <td th:value="${Detalle.idProducto}"></td>
+                <td th:value="${Detalle.cantidad}"></td>
+                <td th:value="${Detalle.valor}"></td>
+                <td th:value="${Detalle.descuento}"></td>
+                <td th:value="${Detalle.subtotal}"></td>
+                <td th:value="${Detalle.total}"></td>
+            </tr>
+
+            <tr>
+                <td>Agregar Producto</td>
+            </tr>
+            <tr>
+                <form th:action="@{/Detalle/crear}" th:object="${detalle}" method="post">
+                    <td><input type="number" th:field="*{idProducto}" placeholder="IdProducto" required></td>
+                    <td><input type="number" th:field="*{cantidad}" placeholder="Cantidad" required></td>
+                    <td><input type="number" th:field="*{descuento}" placeholder="Descuento" required></td>
+                    <td><button></button></td>
+                </form>
+            </tr>
+
+            <tr th:value="${Encabezado.subtotal}"></tr>
+            <tr th:value="${Encabezado.descuento}"></tr>
+            <tr th:value="${Encabezado.total}"></tr>
+        </table>
+        
+    </form>
 </body>
 </html>
