@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Factura - Encabezados</title>
 </head>
 <body>
-    <!-- 
+
+<!-- 
         Validaciones
      Una factura por cliente
      Validar que el cliente exista
@@ -32,19 +32,54 @@
     por si la entidad se crea vacia.
 
     -->
-    <form th:action="@{/Encabezado/editar}" th:object="${Encabezado}">
-        <table>
-            <tr>
-                <form th:action="@{/Encabezado/crear}"  method="post">
+
+    <h1 th:text="${titulo}"></h1>
+
+    <hr>
+    <!-- Mensajes -->
+    <div th:if="${Mensaje}">
+        <p th:text="${Mensaje}"></p>
+    </div>
+    <!--
+
+     Formulario para crear un Encabezado 
+    <form th:action="@{/Encabezado/crear}" th:object="${Encabezado}" method="post">
+        
+        ID Cliente 
+        <input type="number" th:field="*{idCliente}" placeholder="IdC" required>
+        <br>
+
+       
+        <label for="subTotal">Subtotal:</label>
+        <input type="number" step="0.01" th:field="*{subTotal}" required>
+        <br>
+
+       
+        <label for="total">Total:</label>
+        <input type="number" step="0.01" th:field="*{total}" required>
+        <br>
+
+        
+        <label for="descuentottl">Descuento:</label>
+        <input type="number" step="0.01" th:field="*{descuento}" required>
+        <br>
+
+        <button type="submit">Validar cliente</button>
+    </form>
+
+    <hr>
+    -->
+
+                <form th:action="@{/Encabezado/crear}" th:object="${Encabezado}" method="post">
                     <td>Id</td>
-                    <td><input type="number" th:field="*{id}" placeholder="id" required></td>
+                    <td><input type="number" th:field="*{idCliente}" placeholder="IdCliente" required></td>
                     <td>fecha</td>
                     <td>Subtotal</td>
                     <td>Total</td>
                     <td>Descuento total</td>
                     <td><button type="submit" class="btn">Validar</button></td>
                 </form>
-            </tr>
+            
 
             <tr>
                 <td>IdProducto</td>
@@ -71,15 +106,15 @@
                     <td><input type="number" th:field="*{idProducto}" placeholder="IdProducto" required></td>
                     <td><input type="number" th:field="*{cantidad}" placeholder="Cantidad" required></td>
                     <td><input type="number" th:field="*{descuento}" placeholder="Descuento" required></td>
-                    <td><button></button></td>
+                    <td><button type="submit" class="btn">Crear</button></td>
                 </form>
             </tr>
 
-            <tr th:value="${Encabezado.subtotal}"></tr>
-            <tr th:value="${Encabezado.descuento}"></tr>
+            <tr th:value="${Encabezado.subTotal}"></tr>
+            <tr th:value="${Encabezado.descuentottl}"></tr>
             <tr th:value="${Encabezado.total}"></tr>
-        </table>
         
-    </form>
+
+
 </body>
 </html>

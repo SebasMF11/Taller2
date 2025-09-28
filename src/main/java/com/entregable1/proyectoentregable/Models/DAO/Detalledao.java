@@ -12,37 +12,45 @@ import jakarta.persistence.PersistenceContext;
 
 @Repository
 public class Detalledao implements IDetalledao {
+
     @PersistenceContext
     private EntityManager em;
 
     @SuppressWarnings("unchecked")
+    @Override
     @Transactional(readOnly = true)
-    @Override
-    public List<Detalle> findAll(){
-        return  em.createQuery("from Detalle").getResultList();
+    public List<Detalle> findAll() {
+        return em.createQuery("from Detalle").getResultList();
     }
 
     @Override
-    @Transactional
-    public void update(Detalle Detalle){
-        em.merge(Detalle);
-    }
-
-    @Override
-    @Transactional
-    public void delete(Long id){
-       em.remove(findAll().stream().filter(p -> p.getId() == id).findFirst().orElse(null));
-    }
-
-    @Override
-    @Transactional
-    public void save(Detalle Detalle){
-        em.persist(Detalle);
-    }
-
     @Transactional(readOnly = true)
-    @Override
-    public Detalle findById(Long id){
+    public Detalle findById(Long id) {
         return em.find(Detalle.class, id);
+    }
+
+    @Override
+    @Transactional
+    public void save(Detalle detalle) {
+        if (detalle.getId() != 0) { 
+            em.merge(detalle);
+        } else {
+            em.persist(detalle);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void update(Detalle detalle) {
+        em.merge(detalle);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Detalle detalle = findById(id);
+        if (detalle != null) {
+            em.remove(detalle);
+        }
     }
 }

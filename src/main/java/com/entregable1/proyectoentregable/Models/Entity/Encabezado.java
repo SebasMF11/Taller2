@@ -63,10 +63,10 @@ public class Encabezado {
     public void setTotal(float total) {
         this.total = total;
     }
-    public float getDescuento() {
+    public float getDescuentottl() {
         return descuentottl;
     }
-    public void setDescuento(float descuento) {
+    public void setDescuentottl(float descuento) {
         this.descuentottl = descuento;
     }
 }
