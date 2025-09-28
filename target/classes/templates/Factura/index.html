@@ -69,18 +69,24 @@
 
     <hr>
     -->
-
-                <form th:action="@{/Encabezado/crear}" th:object="${Encabezado}" method="post">
-                    <td>Id</td>
-                    <td><input type="number" th:field="*{idCliente}" placeholder="IdCliente" required></td>
-                    <td>fecha</td>
-                    <td>Subtotal</td>
-                    <td>Total</td>
-                    <td>Descuento total</td>
-                    <td><button type="submit" class="btn">Validar</button></td>
-                </form>
-            
-
+    <table>
+        <form th:action="@{/Encabezado/crear}" th:object="${Encabezado}" method="post">
+            <tr>
+                <td>IdFactura</td>
+                <td>
+                    <input type="number" id="IdCliente" th:field="*{idCliente}" 
+                    placeholder="IdCliente" required>
+                </td>
+                <td>fecha</td>
+                <td>Subtotal</td>
+                <td>Total</td>
+                <td>Descuento total</td>
+            </tr>
+            <tr>
+                <td><button th:onclick="inputIdCliente(' + ${Encabezado.id} + ')" type="submit" class="btn">Validar</button></td>
+            </tr>
+        </form>
+        <div th:if="${Encabezado.Id}==null">
             <tr>
                 <td>IdProducto</td>
                 <td>Cantidad</td>
@@ -104,17 +110,41 @@
             <tr>
                 <form th:action="@{/Detalle/crear}" th:object="${detalle}" method="post">
                     <td><input type="number" th:field="*{idProducto}" placeholder="IdProducto" required></td>
-                    <td><input type="number" th:field="*{cantidad}" placeholder="Cantidad" required></td>
-                    <td><input type="number" th:field="*{descuento}" placeholder="Descuento" required></td>
-                    <td><button type="submit" class="btn">Crear</button></td>
+                    <td><input type="number" th:field="*{cantidad}"  required></td>
+                    <td>-</td>
+                    <td><input type="number" th:field="*{descuento}"  required></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td><button type="submit" class="btn">Agregar</button></td>
                 </form>
             </tr>
 
             <tr th:value="${Encabezado.subTotal}"></tr>
             <tr th:value="${Encabezado.descuentottl}"></tr>
             <tr th:value="${Encabezado.total}"></tr>
-        
+            
+        </div>
+    </table>
 
 
+    <div id="btn-volver">
+        <button  class= "btn btn-volver">
+            <a class="textEli" type="button" th:href="@{/}" >Volver</a></button>
+    </div>
+
+    <script>
+        let original = {id};
+
+        function inputIdCliente() {
+            const IdCliente = document.getElementById('IdCliente');
+            
+            original[1] = {n: n.value};
+            [IdCliente].forEach(input => {
+                input.readOnly = true;
+            });
+            
+            IdCliente.value = id;
+        }
+    </script>
 </body>
 </html>

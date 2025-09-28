@@ -29,15 +29,28 @@ public class EncabezadoController {
     @Autowired
     private Clientedao Clientedao;
 
-    @GetMapping({"/Listar","/"})
-    public String listar(Model model) {
+    @GetMapping({"/Factura","/"})
+    public String facturacliente(Model model) {
         List<Encabezado> encabezados = Encabezadodao.findAll();
 
         model.addAttribute("encabezados", encabezados);
         model.addAttribute("titulo", "Factura");
-        model.addAttribute("Mensaje", "Ingresa el Id del cliente:");
+        model.addAttribute("Mensaje", "Ingresa el Id del cliente.");
         model.addAttribute("Encabezado", new Encabezado());
         model.addAttribute("detalle", new Detalle());
+        return "Factura/index";
+    }
+    
+    @GetMapping({"/Factura/{id}"})
+    public String facturaproducto(Model model){
+        List<Encabezado> encabezados = Encabezadodao.findAll();
+
+        model.addAttribute("encabezados", encabezados);
+        model.addAttribute("titulo", "Factura");
+        model.addAttribute("Mensaje", "Ingresa el Id del cliente.");
+        model.addAttribute("Encabezado", new Encabezado());
+        model.addAttribute("detalle", new Detalle());
+
         return "Factura/index";
     }
 
@@ -53,15 +66,20 @@ public class EncabezadoController {
     @PostMapping("/crear")
     public String crear(@ModelAttribute Encabezado encabezadonuevo, RedirectAttributes redirectAttrs) {
         Cliente cliente = Clientedao.findById(encabezadonuevo.getIdCliente());
-
+        
         if(cliente == null){
             redirectAttrs.addFlashAttribute("Mensaje","El cliente no existe");
         } else {
-            encabezadonuevo.setFecha(new Date()); // asigna fecha actual
-            Encabezadodao.save(encabezadonuevo);
-            redirectAttrs.addFlashAttribute("Mensaje","Encabezado creado correctamente");
+            if(null!=Encabezadodao.findById(cliente.getId())){
+                redirectAttrs.addFlashAttribute("Mensaje","Este cliente tiene una factura.");
+            }else{
+                encabezadonuevo.setFecha(new Date()); // asigna fecha actual
+                Encabezadodao.save(encabezadonuevo);
+                redirectAttrs.addFlashAttribute("Mensaje","Encabezado creado correctamente");
+                return "redirect:/Encabezado/Factura/" + encabezadonuevo.getId();
+            }
         }
-        return "redirect:/Encabezado/Listar";
+        return "redirect:/Encabezado/Factura";
     }
     
     @PostMapping("/actualizar")
@@ -78,13 +96,13 @@ public class EncabezadoController {
             redirectAttrs.addFlashAttribute("Mensaje","El encabezado no existe");
         }
 
-        return "redirect:/Encabezado/Listar";
+        return "redirect:/Encabezado/Factura";
     }
     
     @GetMapping("/eliminar/{id}")
     public String eliminar (@PathVariable Long id, RedirectAttributes redirectAttrs){
         Encabezadodao.delete(id);
         redirectAttrs.addFlashAttribute("Mensaje","Encabezado eliminado correctamente");
-        return "redirect:/Encabezado/Listar";
+        return "redirect:/Encabezado/Factura";
     }
 }
