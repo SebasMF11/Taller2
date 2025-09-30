@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div >
+        <form th:action="@{/Encabezado/crear}" th:object="${Encabezado}" method="post">
+                <h1>Ingresa el cliente:</h1>
+                <div th:if="${Mensaje}">
+        <p th:text="${Mensaje}"></p>
+    </div>
+                <input type="number" th:field="*{idCliente}" placeholder="IdCliente" required>
+
+                <button id="BtnValidarCliente" th:if="!${clienteValido}"
+                    type="submit"  class="btn">Validar</button>
+        </form>
+    </div>
+    <div id="btn-volver">
+            <button  class= "btn btn-volver">
+                <a class="textEli" type="button" th:href="@{/}" >Volver</a></button>
+        </div>
+</body>
+</html>

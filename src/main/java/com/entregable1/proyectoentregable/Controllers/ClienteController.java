@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.entregable1.proyectoentregable.Models.DAO.Clientedao;
+
 import com.entregable1.proyectoentregable.Models.Entity.Cliente;
+
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,9 +24,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ClienteController {
     @Autowired
     private Clientedao Clientedao;
+
+ 
     
     @GetMapping({"/Listar", "/"})
     public String listar(Model model){
+
+       
         List<Cliente> clientes = Clientedao.findAll();
         model.addAttribute("cliente", new Cliente()); 
     

@@ -32,11 +32,7 @@ public class Detalledao implements IDetalledao {
     @Override
     @Transactional
     public void save(Detalle detalle) {
-        if (detalle.getId() != 0) { 
-            em.merge(detalle);
-        } else {
-            em.persist(detalle);
-        }
+        em.persist(detalle);
     }
 
     @Override

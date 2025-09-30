@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="/css/FacturaIndex.css">
     <meta charset="UTF-8">
     <title>Factura - Encabezados</title>
 </head>
@@ -12,6 +13,7 @@
      Validar que el cliente exista
      Que los productos agregados cambien el stock
      Si no hay suficiente stock no deje crear la factura
+     Al eliminar un producto o cliente, eliminar factura y detalle
 
         Vista
     Encabezado: Poner cliente 
@@ -40,53 +42,24 @@
     <div th:if="${Mensaje}">
         <p th:text="${Mensaje}"></p>
     </div>
-    <!--
-
-     Formulario para crear un Encabezado 
-    <form th:action="@{/Encabezado/crear}" th:object="${Encabezado}" method="post">
-        
-        ID Cliente 
-        <input type="number" th:field="*{idCliente}" placeholder="IdC" required>
-        <br>
-
-       
-        <label for="subTotal">Subtotal:</label>
-        <input type="number" step="0.01" th:field="*{subTotal}" required>
-        <br>
-
-       
-        <label for="total">Total:</label>
-        <input type="number" step="0.01" th:field="*{total}" required>
-        <br>
-
-        
-        <label for="descuentottl">Descuento:</label>
-        <input type="number" step="0.01" th:field="*{descuento}" required>
-        <br>
-
-        <button type="submit">Validar cliente</button>
-    </form>
-
-    <hr>
-    -->
-    <table>
-        <form th:action="@{/Encabezado/crear}" th:object="${Encabezado}" method="post">
+    
+    <div >
+        <table>
             <tr>
-                <td>IdFactura</td>
-                <td>
-                    <input type="number" id="IdCliente" th:field="*{idCliente}" 
-                    placeholder="IdCliente" required>
-                </td>
-                <td>fecha</td>
-                <td>Subtotal</td>
-                <td>Total</td>
-                <td>Descuento total</td>
+                <th th:text="${'Factura: ' + Encabezado.id}"></th>
             </tr>
             <tr>
-                <td><button th:onclick="inputIdCliente(' + ${Encabezado.id} + ')" type="submit" class="btn">Validar</button></td>
+                <th th:text="${'Fecha de compra: ' + Encabezado.fecha}"></th>
             </tr>
-        </form>
-        <div th:if="${Encabezado.Id}==null">
+            <tr>
+                <th>Cliente:</th>
+                <th th:text="${Encabezado.idCliente}"></th>
+                <th th:text="${cliente.nombre + ' ' + cliente.apellido}"></th>
+            </tr>
+            <tr>
+                <th>Detalles de Compra</th>
+            </tr>
+
             <tr>
                 <td>IdProducto</td>
                 <td>Cantidad</td>
@@ -95,56 +68,59 @@
                 <td>Subtotal</td>
                 <td>Total</td>
             </tr>
-            <tr th:each = "Detalle : ${detalles}" th:if="${detalles.getIdEncabezado()}==${Encabezado.getId()}">
-                <td th:value="${Detalle.idProducto}"></td>
-                <td th:value="${Detalle.cantidad}"></td>
-                <td th:value="${Detalle.valor}"></td>
-                <td th:value="${Detalle.descuento}"></td>
-                <td th:value="${Detalle.subtotal}"></td>
-                <td th:value="${Detalle.total}"></td>
+            <tr th:each = "Detalle : ${detalles}" th:if="${Detalle.idEncabezado==Encabezado.id}">
+                <td th:text="${Detalle.idProducto}"></td>
+                <td th:text="${Detalle.cantidad}"></td>
+                <td th:text="${Detalle.valor}"></td>
+                <td th:text="${Detalle.descuento}"></td>
+                <td th:text="${Detalle.subtotal}"></td>
+                <td th:text="${Detalle.total}"></td>
             </tr>
 
-            <tr>
-                <td>Agregar Producto</td>
-            </tr>
+                <tr>
+                    <td>Agregar Producto</td>
+                </tr>
             <tr>
                 <form th:action="@{/Detalle/crear}" th:object="${detalle}" method="post">
-                    <td><input type="number" th:field="*{idProducto}" placeholder="IdProducto" required></td>
-                    <td><input type="number" th:field="*{cantidad}"  required></td>
+                    <input type="hidden" th:field="*{idEncabezado}" th:value="${Encabezado.id}" />
+    
+                    <td><input type="number"  th:field="*{idProducto}" placeholder="IdProducto" required></td>
+                    <td><input type="number" min="1" th:field="*{cantidad}"  required></td>
                     <td>-</td>
-                    <td><input type="number" th:field="*{descuento}"  required></td>
+                    <td><input type="number" min="0" th:field="*{descuento}"  required></td>
                     <td>-</td>
                     <td>-</td>
                     <td><button type="submit" class="btn">Agregar</button></td>
                 </form>
             </tr>
 
-            <tr th:value="${Encabezado.subTotal}"></tr>
-            <tr th:value="${Encabezado.descuentottl}"></tr>
-            <tr th:value="${Encabezado.total}"></tr>
-            
+            <tr>
+                <th>Subtotal</th>
+                <th th:text="${Encabezado.subTotal}"></th>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <th th:text="${Encabezado.total}"></th>
+            </tr>
+            <tr>
+                <th>Descuento total</th>
+                <th th:text="${Encabezado.descuentottl}"></th>
+            </tr>
+                
+        </table>
+   
+        <div>
+            <a th:href="@{/Encabezado/eliminar/{id}(id=${Encabezado.id})}" id="btn_CancelarFactura" class= "btn">Cancelar Factura</a>
         </div>
-    </table>
+        
+        <div>
+            <a th:href="@{/Detalle/finalizar/{id}(id=${Encabezado.id})}" 
+            class="btn btn-success">
+            Finalizar Factura
+            </a>
+        </div>
 
+    </div> 
 
-    <div id="btn-volver">
-        <button  class= "btn btn-volver">
-            <a class="textEli" type="button" th:href="@{/}" >Volver</a></button>
-    </div>
-
-    <script>
-        let original = {id};
-
-        function inputIdCliente() {
-            const IdCliente = document.getElementById('IdCliente');
-            
-            original[1] = {n: n.value};
-            [IdCliente].forEach(input => {
-                input.readOnly = true;
-            });
-            
-            IdCliente.value = id;
-        }
-    </script>
 </body>
 </html>

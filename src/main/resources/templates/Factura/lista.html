@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Facturas</title>
+</head>
+<body>
+    <h1>Lista de Facturas</h1>
+    <table border="1">
+        <thead>
+            <tr>    
+                <th>ID</th>
+                <th>IdCliente</th>
+                <th>Fecha</th>
+                <th>Subtotal</th>
+                <th>Descuento</th>
+                <th>Total</th>
+                <th>X</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="encabezado : ${Encabezado}">
+                <td th:text="${encabezado.id}"></td>
+                <td th:text="${encabezado.idCliente}"></td>
+                <td th:text="${encabezado.fecha}"></td>
+                <td th:text="${encabezado.subTotal}"></td>
+                <td th:text="${encabezado.descuentottl}"></td>
+                <td th:text="${encabezado.total}"></td>
+                <td>
+                    <a th:href="@{/Encabezado/eliminar/{id}(id=${encabezado.id})}">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
