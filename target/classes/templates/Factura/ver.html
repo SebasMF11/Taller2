@@ -1,11 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="/css/FacturaIndex.css">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Factura - Encabezados</title>
 </head>
 <body>
+
+    <h1 th:text="${titulo}"></h1>
+
+    <hr>
+    <!-- Mensajes -->
+    <div th:if="${Mensaje}">
+        <p th:text="${Mensaje}"></p>
+    </div>
     
+    <div >
+        <table>
+            <tr>
+                <th colspan="6" th:text="${'Factura: ' + Encabezado.id}"></th>
+            </tr>
+            <tr>
+                <th colspan="6" th:text="${'Fecha de compra: ' + Encabezado.fecha}"></th>
+            </tr>
+            <tr>
+                <th>Cliente:</th>
+                <th th:text="${Encabezado.idCliente}"></th>
+                <th colspan="4" th:text="${cliente.nombre + ' ' + cliente.apellido}"></th>
+            </tr>
+            <tr>
+                <th colspan="6">Detalles de Compra</th>
+            </tr>
+
+            <tr>
+                <td>IdProducto</td>
+                <td>Cantidad</td>
+                <td>ValorUnitario</td>
+                <td>Descuento</td>
+                <td>Subtotal</td>
+                <td>Total</td>
+            </tr>
+            <tr th:each = "Detalle : ${detalles}" th:if="${Detalle.idEncabezado==Encabezado.id}">
+                <td th:text="${Detalle.idProducto}"></td>
+                <td th:text="${Detalle.cantidad}"></td>
+                <td th:text="${Detalle.valor}"></td>
+                <td th:text="${Detalle.descuento}"></td>
+                <td th:text="${Detalle.subtotal}"></td>
+                <td th:text="${Detalle.total}"></td>
+            </tr>
+
+            <tr>
+                <th colspan="4">Subtotal</th>
+                <th colspan="2" th:text="${Encabezado.subTotal}"></th>
+            </tr>
+            <tr>
+                <th colspan="4">Total</th>
+                <th colspan="2" th:text="${Encabezado.total}"></th>
+            </tr>
+            <tr>
+                <th colspan="4">Descuento total</th>
+                <th colspan="2" th:text="${Encabezado.descuentottl}"></th>
+            </tr>
+                
+        </table>
+   
+        <div>
+            <button  class= "btn">
+                <a th:href="@{/Encabezado/eliminar/{id}(id=${Encabezado.id})}" 
+                id="btn_CancelarFactura" class= "btn">Eliminar Factura</a>
+            </button>
+
+            <button  class= "btn"><a th:href="@{/Encabezado/actualizar/}">Editar Factura</a>
+            </button>
+        </div>
+        
+
+        <button  class= "btn btn-volver">
+            <a class="textEli" type="button" th:href="@{/Encabezado/Listar}" >Volver</a></button>
+
+    </div> 
+
 </body>
 </html>

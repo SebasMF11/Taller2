@@ -1,6 +1,6 @@
 body{
-  padding: 60px ;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 60px ;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     justify-content: center;
 }
 
@@ -33,9 +33,25 @@ table{
     background-color: rgb(60, 108, 185);
 }
 
+#btn_compra{
+    background-color: rgb(204, 43, 59);
+}
+
+#btn_compra:hover{
+    background-color: rgb(185, 16, 33);
+}
+
+#btn_factura{
+    background-color: rgb(243, 195, 38);
+}
+
+#btn_factura:hover{
+    background-color: rgb(216, 167, 7);
+}
+
 .box{
     width: 450px;
-    height: 150px;
+    height: 200px;
     padding: 20px;
     background: rgb(244, 244, 244);
     border-radius: 20px;
@@ -46,4 +62,8 @@ table{
     justify-content: center;
     gap: 0px;
     margin: auto;
+}
+
+.box_1btns{
+    padding-bottom: 10%;
 }

@@ -50,6 +50,10 @@ public class DetalleController {
         return "redirect:/Encabezado/Factura/" + encabezado.getId();
     }
 
+    if (producto.getValorUnitario() < detalle.getDescuento()) {
+        redirectAttrs.addFlashAttribute("Mensaje", "Error: No se puede aplicar un descuento mayor al precio unitario de " + producto.getNombre());
+        return "redirect:/Encabezado/Factura/" + encabezado.getId();
+    }
     
 
     // Calcular valores

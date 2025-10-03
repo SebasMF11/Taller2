@@ -7,38 +7,16 @@
 </head>
 <body>
 
-<!-- 
-        Validaciones
-     Una factura por cliente
-     Validar que el cliente exista
-     Que los productos agregados cambien el stock
-     Si no hay suficiente stock no deje crear la factura
-     Al eliminar un producto o cliente, eliminar factura y detalle
-
-        Vista
-    Encabezado: Poner cliente 
-    Detalle: productos a comprar
-    boton para crear factura 
-    (Validaciones antes de crear, despues de validar se crea realmente la factura)
-
-
-    ----
-
-
-    Lo que hará el codigo: Validar la informacion de encabezado, y crea encabezado
-    despues empieza a crear detalles, uno por uno.
-
-    NOTA: 
-        Arreglar las entidades: los atributos subtotal y total son operaciones
-    por lo tanto se debe crear metodos para actualizar subtotal y total
-    por si la entidad se crea vacia.
+    <!-- 
+        Lo que falta
+    Actualizar
+    Que al agregar el mismo producto por segunda vez se actualice el detalle
 
     -->
 
     <h1 th:text="${titulo}"></h1>
 
     <hr>
-    <!-- Mensajes -->
     <div th:if="${Mensaje}">
         <p th:text="${Mensaje}"></p>
     </div>
@@ -46,30 +24,36 @@
     <div >
         <table>
             <tr>
-                <th th:text="${'Factura: ' + Encabezado.id}"></th>
+                <th colspan="7" th:text="${'Factura: ' + Encabezado.id}"></th>
             </tr>
             <tr>
-                <th th:text="${'Fecha de compra: ' + Encabezado.fecha}"></th>
+                <th colspan="7" th:text="${'Fecha de compra: ' + Encabezado.fecha}"></th>
             </tr>
             <tr>
                 <th>Cliente:</th>
                 <th th:text="${Encabezado.idCliente}"></th>
-                <th th:text="${cliente.nombre + ' ' + cliente.apellido}"></th>
+                <th colspan="5" th:text="${cliente.nombre + ' ' + cliente.apellido}"></th>
             </tr>
             <tr>
-                <th>Detalles de Compra</th>
+                <th colspan="7">Detalles de Compra</th>
             </tr>
 
             <tr>
                 <td>IdProducto</td>
+                <td>Nombre</td>
                 <td>Cantidad</td>
                 <td>ValorUnitario</td>
                 <td>Descuento</td>
                 <td>Subtotal</td>
                 <td>Total</td>
             </tr>
-            <tr th:each = "Detalle : ${detalles}" th:if="${Detalle.idEncabezado==Encabezado.id}">
+            <tr th:each = "Detalle : ${detalles}" th:if="${Detalle.idEncabezado == Encabezado.id}">
                 <td th:text="${Detalle.idProducto}"></td>
+
+                <div th:each = "Producto : ${productos}" th:if="${Producto.id == Detalle.idProducto}">
+                    <td th:text="${Producto.nombre}"></td>
+                </div>
+
                 <td th:text="${Detalle.cantidad}"></td>
                 <td th:text="${Detalle.valor}"></td>
                 <td th:text="${Detalle.descuento}"></td>
@@ -78,15 +62,15 @@
             </tr>
 
                 <tr>
-                    <td>Agregar Producto</td>
+                    <th colspan="7">Agregar Producto</th>
                 </tr>
             <tr>
                 <form th:action="@{/Detalle/crear}" th:object="${detalle}" method="post">
                     <input type="hidden" th:field="*{idEncabezado}" th:value="${Encabezado.id}" />
     
                     <td><input type="number"  th:field="*{idProducto}" placeholder="IdProducto" required></td>
+                    <td>-</td> 
                     <td><input type="number" min="1" th:field="*{cantidad}"  required></td>
-                    <td>-</td>
                     <td><input type="number" min="0" th:field="*{descuento}"  required></td>
                     <td>-</td>
                     <td>-</td>
@@ -95,16 +79,16 @@
             </tr>
 
             <tr>
-                <th>Subtotal</th>
-                <th th:text="${Encabezado.subTotal}"></th>
+                <th colspan="4">Subtotal</th>
+                <th colspan="3" th:text="${Encabezado.subTotal}"></th>
             </tr>
             <tr>
-                <th>Total</th>
-                <th th:text="${Encabezado.total}"></th>
+                <th colspan="4">Total</th>
+                <th colspan="3" th:text="${Encabezado.total}"></th>
             </tr>
             <tr>
-                <th>Descuento total</th>
-                <th th:text="${Encabezado.descuentottl}"></th>
+                <th colspan="4">Descuento total</th>
+                <th colspan="3" th:text="${Encabezado.descuentottl}"></th>
             </tr>
                 
         </table>
@@ -114,10 +98,9 @@
         </div>
         
         <div>
-            <a th:href="@{/Detalle/finalizar/{id}(id=${Encabezado.id})}" 
-            class="btn btn-success">
-            Finalizar Factura
-            </a>
+            <button>
+                <a th:href="@{/Detalle/finalizar/{id}(id=${Encabezado.id})}"> Finalizar Factura</a>
+            </button>
         </div>
 
     </div> 

@@ -16,9 +16,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.entregable1.proyectoentregable.Models.DAO.Clientedao;
 import com.entregable1.proyectoentregable.Models.DAO.Detalledao;
 import com.entregable1.proyectoentregable.Models.DAO.Encabezadodao;
+import com.entregable1.proyectoentregable.Models.DAO.Productodao;
 import com.entregable1.proyectoentregable.Models.Entity.Cliente;
 import com.entregable1.proyectoentregable.Models.Entity.Detalle;
 import com.entregable1.proyectoentregable.Models.Entity.Encabezado;
+import com.entregable1.proyectoentregable.Models.Entity.Producto;
 
 @Controller
 @RequestMapping("/Encabezado")
@@ -32,6 +34,9 @@ public class EncabezadoController {
 
     @Autowired
     private Detalledao Detalledao;
+
+    @Autowired
+    private Productodao Productodao;
 
     @GetMapping("/Listar")
     public String Listar(Model model) {
@@ -56,6 +61,7 @@ public class EncabezadoController {
         Encabezado encabezado = Encabezadodao.findById(id);
         List<Detalle> detalles = Detalledao.findAll();
         Cliente cliente = Clientedao.findById(encabezado.getIdCliente());
+        List<Producto> productos = Productodao.findAll();
       
         Detalle.setIdEncabezado(encabezado.getId());
         
@@ -64,16 +70,28 @@ public class EncabezadoController {
         model.addAttribute("detalles", detalles);
         model.addAttribute("cliente", cliente);
         model.addAttribute("detalle",  Detalle);
+        model.addAttribute("productos",  productos);
 
         return "Factura/index";
     }
 
-    @GetMapping("/ver/{id}")
-    public String ver(Model model, @PathVariable Long id) {
+    @GetMapping({"/ver/{id}"})
+    public String factura(Model model, @PathVariable Long id){
+        Detalle Detalle = new Detalle();
         Encabezado encabezado = Encabezadodao.findById(id);
+        List<Detalle> detalles = Detalledao.findAll();
+        List<Producto> productos = Productodao.findAll();
+        Cliente cliente = Clientedao.findById(encabezado.getIdCliente());
+      
+        Detalle.setIdEncabezado(encabezado.getId());
+        
+        model.addAttribute("titulo", "Factura");
+        model.addAttribute("Encabezado", encabezado);
+        model.addAttribute("detalles", detalles);
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("detalle",  Detalle);
+        model.addAttribute("productos",  productos);
 
-        model.addAttribute("encabezado", encabezado);
-        model.addAttribute("titulo", "Ver de Encabezado");
         return "Factura/ver";
     }
 
@@ -93,27 +111,14 @@ public class EncabezadoController {
                 redirectAttrs.addFlashAttribute("Mensaje","Encabezado creado correctamente");
                 redirectAttrs.addFlashAttribute("clienteValido", true);
                 return "redirect:/Encabezado/Factura/" + encabezadonuevo.getId();
-            }
-        //}
+            //}
+        }
         return "redirect:/Encabezado/Factura";
     }
     
     @PostMapping("/actualizar")
     public String actualizar(@ModelAttribute Encabezado encabezadonuevo, RedirectAttributes redirectAttrs){
-        Encabezado encabezadoexistente = Encabezadodao.findById(encabezadonuevo.getId());
-
-        if(encabezadoexistente != null){
-            encabezadoexistente.setDescuentottl(encabezadonuevo.getDescuentottl());
-            encabezadoexistente.setSubTotal(encabezadonuevo.getSubTotal());
-            encabezadoexistente.setTotal(encabezadonuevo.getTotal());
-            Encabezadodao.save(encabezadoexistente);
-            redirectAttrs.addFlashAttribute("Mensaje","Encabezado actualizado correctamente");
-            
-            return "redirect:/Encabezado/Factura" + encabezadoexistente.getId();
-        } else {
-            redirectAttrs.addFlashAttribute("Mensaje","El encabezado no existe");
-        }
-
+       
         return "redirect:/Encabezado/Factura";
     }
     
@@ -121,6 +126,13 @@ public class EncabezadoController {
     public String eliminar (@PathVariable Long id, RedirectAttributes redirectAttrs){
         Encabezadodao.delete(id);
         redirectAttrs.addFlashAttribute("Mensaje","Factura eliminada correctamente");
-        return "redirect:/Encabezado/Factura";
+        return "redirect:/Encabezado/Listar";
+    }
+
+    @GetMapping("/eliminar2/{id}")
+    public String eliminar2 (@PathVariable Long id, RedirectAttributes redirectAttrs){
+        Encabezadodao.delete(id);
+        redirectAttrs.addFlashAttribute("Mensaje","Factura eliminada correctamente");
+        return "redirect:/Encabezado/Listar";
     }
 }

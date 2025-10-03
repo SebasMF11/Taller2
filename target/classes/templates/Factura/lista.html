@@ -16,7 +16,7 @@
                 <th>Subtotal</th>
                 <th>Descuento</th>
                 <th>Total</th>
-                <th>X</th>
+                <th colspan="2">Opciones</th>
             </tr>
         </thead>
 
@@ -29,10 +29,20 @@
                 <td th:text="${encabezado.descuentottl}"></td>
                 <td th:text="${encabezado.total}"></td>
                 <td>
-                    <a th:href="@{/Encabezado/eliminar/{id}(id=${encabezado.id})}">Eliminar</a>
+                    <a th:href="@{/Encabezado/eliminar2/{id}(id=${encabezado.id})}">Eliminar</a>
+                </td>
+                <td>
+                    <a th:href="@{/Encabezado/ver/{id}(id=${encabezado.id})}">Ver</a>
                 </td>
             </tr>
         </tbody>
     </table>
+    <div id="btn-volver">
+        <button  class= "btn btn-volver">
+            <a class="textEli" type="button" th:href="@{/}" >Volver</a></button>
+            <button>    
+            <a th:href="@{/Encabezado/Factura}" id="btn_Comprar" class= "btn_compra">Crear nueva factura</a>    
+            </button>
+             </div>
 </body>
 </html>
