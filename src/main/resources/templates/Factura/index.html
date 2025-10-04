@@ -9,7 +9,6 @@
 
     <!-- 
         Lo que falta
-    Actualizar
     Que al agregar el mismo producto por segunda vez se actualice el detalle
 
     -->
@@ -71,8 +70,8 @@
                     <td><input type="number"  th:field="*{idProducto}" placeholder="IdProducto" required></td>
                     <td>-</td> 
                     <td><input type="number" min="1" th:field="*{cantidad}"  required></td>
-                    <td><input type="number" min="0" th:field="*{descuento}"  required></td>
                     <td>-</td>
+                    <td><input type="number" min="0" th:field="*{descuento}"  required></td>
                     <td>-</td>
                     <td><button type="submit" class="btn">Agregar</button></td>
                 </form>

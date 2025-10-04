@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/FacturaIndex.css">
+    <meta charset="UTF-8">
+    <title>Factura - Encabezados</title>
+</head>
+<body>
+
+    <!-- 
+        Lo que falta:
+        - Que al agregar el mismo producto por segunda vez se actualice el detalle
+    -->
+
+    <h1 th:text="${titulo}"></h1>
+
+    <hr>
+    <div th:if="${Mensaje}">
+        <p th:text="${Mensaje}"></p>
+    </div>
+    
+    <div>
+        <table>
+            <tr>
+                <th colspan="8" th:text="${'Factura: ' + Encabezado.id}"></th>
+            </tr>
+            <tr>
+                <th colspan="8" th:text="${'Fecha de compra: ' + Encabezado.fecha}"></th>
+            </tr>
+            <tr>
+                <th>Cliente:</th>
+                <th th:text="${Encabezado.idCliente}"></th>
+                <th colspan="6" th:text="${cliente.nombre + ' ' + cliente.apellido}"></th>
+            </tr>
+
+            <tr>
+                <th colspan="8">Detalles de Compra</th>
+            </tr>
+            <tr>
+                <td>IdProducto</td>
+                <td>Nombre</td>
+                <td>Cantidad</td>
+                <td>ValorUnitario</td>
+                <td>Descuento</td>
+                <td>Subtotal</td>
+                <td>Total</td>
+                <td>Acciones</td>
+            </tr>
+
+            <tr th:each="Detalle : ${detalles}" th:if="${Detalle.idEncabezado == Encabezado.id}">
+
+                <form th:action="@{/Detalle/actualizar}" th:object="${detalle}" method="post">
+                    <input type="hidden" name="id" th:value="${Detalle.id}" />
+                    <input type="hidden" th:field="*{idEncabezado}" th:value="${Encabezado.id}" />
+                    <input type="hidden" name="idProducto" th:value="${Detalle.idProducto}" />
+
+
+                    <td th:text="${Detalle.idProducto}"></td>
+
+                    <div th:each="Producto : ${productos}" th:if="${Producto.id == Detalle.idProducto}">
+                        <td th:text="${Producto.nombre}"></td>
+                    </div>
+
+                    <!-- Pa editar -->
+                    <td><input type="number" name="cantidad" min="1" th:value="${Detalle.cantidad}" required></td>
+                    <td th:text="${Detalle.valor}"></td>
+                    <td><input type="number" name="descuento" min="0" th:value="${Detalle.descuento}" required></td>
+                    <td th:text="${Detalle.subtotal}"></td>
+                    <td th:text="${Detalle.total}"></td>
+
+                    <td>
+                        <button type="submit" class="btn">Actualizar</button>
+                        <button>    
+                         <a th:href="@{/Detalle/eliminar/{id}(id=${Detalle.id})}" class="btn">Eliminar</a>   
+                        </button>
+                    </td>
+                </form>
+            </tr>
+
+            <tr>
+                <th colspan="8">Agregar Producto</th>
+            </tr>
+            <tr>
+                <form th:action="@{/Detalle/crear2}" th:object="${detalle}" method="post">
+                    <input type="hidden" th:field="*{idEncabezado}" th:value="${Encabezado.id}" />
+
+                    <td><input type="number" th:field="*{idProducto}" placeholder="IdProducto" required></td>
+                    <td>-</td> 
+                    <td><input type="number" min="1" th:field="*{cantidad}" required></td>
+                    <td>-</td>
+                    <td><input type="number" min="0" th:field="*{descuento}" required></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td><button type="submit" class="btn">Agregar</button></td>
+                </form>
+            </tr>
+
+            <tr>
+                <th colspan="4">Subtotal</th>
+                <th colspan="4" th:text="${Encabezado.subTotal}"></th>
+            </tr>
+            <tr>
+                <th colspan="4">Total</th>
+                <th colspan="4" th:text="${Encabezado.total}"></th>
+            </tr>
+            <tr>
+                <th colspan="4">Descuento total</th>
+                <th colspan="4" th:text="${Encabezado.descuentottl}"></th>
+            </tr>
+        </table>
+
+        <div>
+            <a th:href="@{/Encabezado/eliminar2/{id}(id=${Encabezado.id})}" id="btn_CancelarFactura" class="btn">Cancelar Factura</a>
+        </div>
+
+        <div>
+            <button>
+                <a th:href="@{/Detalle/finalizar2/{id}(id=${Encabezado.id})}">Finalizar Factura</a>
+            </button>
+        </div>
+    </div> 
+</body>
+</html>

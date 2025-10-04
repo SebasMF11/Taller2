@@ -16,7 +16,7 @@
                 <th>Subtotal</th>
                 <th>Descuento</th>
                 <th>Total</th>
-                <th colspan="2">Opciones</th>
+                <th colspan="3">Opciones</th>
             </tr>
         </thead>
 
@@ -27,12 +27,15 @@
                 <td th:text="${encabezado.fecha}"></td>
                 <td th:text="${encabezado.subTotal}"></td>
                 <td th:text="${encabezado.descuentottl}"></td>
-                <td th:text="${encabezado.total}"></td>
-                <td>
-                    <a th:href="@{/Encabezado/eliminar2/{id}(id=${encabezado.id})}">Eliminar</a>
-                </td>
+                <td th:text="${encabezado.total}"></td>             
                 <td>
                     <a th:href="@{/Encabezado/ver/{id}(id=${encabezado.id})}">Ver</a>
+                </td>
+                <td>
+                    <a th:href="@{/Encabezado/actualizar/{id}(id=${encabezado.id})}">Editar Factura</a>
+                </td>
+                <td>
+                    <a th:href="@{/Encabezado/eliminar2/{id}(id=${encabezado.id})}">Eliminar</a>
                 </td>
             </tr>
         </tbody>
