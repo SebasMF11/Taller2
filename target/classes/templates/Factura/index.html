@@ -64,7 +64,7 @@
                     <th colspan="7">Agregar Producto</th>
                 </tr>
             <tr>
-                <form th:action="@{/Detalle/crear}" th:object="${detalle}" method="post">
+                <form th:action="@{/Detalle/crear/1}" th:object="${detalle}" method="post">
                     <input type="hidden" th:field="*{idEncabezado}" th:value="${Encabezado.id}" />
     
                     <td><input type="number"  th:field="*{idProducto}" placeholder="IdProducto" required></td>
@@ -93,12 +93,12 @@
         </table>
    
         <div>
-            <a th:href="@{/Encabezado/eliminar/{id}(id=${Encabezado.id})}" id="btn_CancelarFactura" class= "btn">Cancelar Factura</a>
+            <a th:href="@{/Encabezado/eliminar/1/{id}(id=${Encabezado.id})}" id="btn_CancelarFactura" class= "btn">Cancelar Factura</a>
         </div>
         
         <div>
             <button>
-                <a th:href="@{/Detalle/finalizar/{id}(id=${Encabezado.id})}"> Finalizar Factura</a>
+                <a th:href="@{/Detalle/finalizar/1/{id}(id=${Encabezado.id})}"> Finalizar Factura</a>
             </button>
         </div>
 

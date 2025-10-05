@@ -115,8 +115,6 @@ public class EncabezadoController {
         return "Factura/actu";
     }
 
-
-
     @PostMapping("/crear")
     public String crear(@ModelAttribute Encabezado encabezadonuevo, RedirectAttributes redirectAttrs) {
         Cliente cliente = Clientedao.findById(encabezadonuevo.getIdCliente());
@@ -138,23 +136,15 @@ public class EncabezadoController {
         return "redirect:/Encabezado/Factura";
     }
     
-    @PostMapping("/actualizar")
-    public String actualizar(@ModelAttribute Encabezado encabezadonuevo, RedirectAttributes redirectAttrs){
-       
-        return "redirect:/Encabezado/Factura";
-    }
-    
-    @GetMapping("/eliminar/{id}")
-    public String eliminar (@PathVariable Long id, RedirectAttributes redirectAttrs){
+   
+    @GetMapping("/eliminar/{direccion}/{id}")
+    public String eliminar (@PathVariable Long id,@PathVariable int direccion, RedirectAttributes redirectAttrs){
         Encabezadodao.delete(id);
         redirectAttrs.addFlashAttribute("Mensaje","Factura eliminada correctamente");
-        return "redirect:/Encabezado/Factura";
-    }
-
-    @GetMapping("/eliminar2/{id}")
-    public String eliminar2 (@PathVariable Long id, RedirectAttributes redirectAttrs){
-        Encabezadodao.delete(id);
-        redirectAttrs.addFlashAttribute("Mensaje","Factura eliminada correctamente");
-        return "redirect:/Encabezado/Listar";
+        if (direccion == 1){
+            return "redirect:/";
+        }else{
+            return "redirect:/Encabezado/Listar";
+        }
     }
 }

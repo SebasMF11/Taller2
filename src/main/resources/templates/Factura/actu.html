@@ -71,6 +71,7 @@
                     <td>
                         <button type="submit" class="btn">Actualizar</button>
                         <button>    
+
                          <a th:href="@{/Detalle/eliminar/{id}(id=${Detalle.id})}" class="btn">Eliminar</a>   
                         </button>
                     </td>
@@ -81,7 +82,7 @@
                 <th colspan="8">Agregar Producto</th>
             </tr>
             <tr>
-                <form th:action="@{/Detalle/crear2}" th:object="${detalle}" method="post">
+                <form th:action="@{/Detalle/crear/2}" th:object="${detalle}" method="post">
                     <input type="hidden" th:field="*{idEncabezado}" th:value="${Encabezado.id}" />
 
                     <td><input type="number" th:field="*{idProducto}" placeholder="IdProducto" required></td>
@@ -108,11 +109,6 @@
                 <th colspan="4" th:text="${Encabezado.descuentottl}"></th>
             </tr>
         </table>
-
-        <div>
-            <a th:href="@{/Encabezado/eliminar2/{id}(id=${Encabezado.id})}" id="btn_CancelarFactura" class="btn">Cancelar Factura</a>
-        </div>
-
         <div>
             <button>
                 <a th:href="@{/Detalle/finalizar2/{id}(id=${Encabezado.id})}">Finalizar Factura</a>
