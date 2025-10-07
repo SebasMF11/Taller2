@@ -1,51 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="/css/Factura.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Facturas</title>
 </head>
 <body>
-    <h1>Lista de Facturas</h1>
-    <table border="1">
-        <thead>
-            <tr>    
-                <th>ID</th>
-                <th>IdCliente</th>
-                <th>Fecha</th>
-                <th>Subtotal</th>
-                <th>Descuento</th>
-                <th>Total</th>
-                <th colspan="3">Opciones</th>
-            </tr>
-        </thead>
+    <div class="centrar" >
+        <h1 th:text="${titulo}"></h1>
+    </div>
 
-        <tbody>
-            <tr th:each="encabezado : ${Encabezado}">
-                <td th:text="${encabezado.id}"></td>
-                <td th:text="${encabezado.idCliente}"></td>
-                <td th:text="${encabezado.fecha}"></td>
-                <td th:text="${encabezado.subTotal}"></td>
-                <td th:text="${encabezado.descuentottl}"></td>
-                <td th:text="${encabezado.total}"></td>             
-                <td>
-                    <a th:href="@{/Encabezado/ver/{id}(id=${encabezado.id})}">Ver</a>
-                </td>
-                <td>
-                    <a th:href="@{/Encabezado/actualizar/{id}(id=${encabezado.id})}">Editar Factura</a>
-                </td>
-                <td>
-                    <a th:href="@{/Encabezado/eliminar/2/{id}(id=${encabezado.id})}">Eliminar</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div id="btn-volver">
+    <div th:if="${Encabezado.isEmpty()}" class="centrar">
+        <p>No hay facturas existentes.</p>
+    </div>
+    
+    <div th:if="${!Encabezado.isEmpty()}" id="box-table">
+        <table>
+            <thead>
+                <tr>    
+                    <th>ID</th>
+                    <th>IdCliente</th>
+                    <th>Fecha</th>
+                    <th>Subtotal</th>
+                    <th>Descuento</th>
+                    <th>Total</th>
+                    <th colspan="3">Opciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="encabezado : ${Encabezado}">
+                    <td th:text="${encabezado.id}"></td>
+                    <td th:text="${encabezado.idCliente}"></td>
+                    <td th:text="${encabezado.fecha}"></td>
+                    <td th:text="${encabezado.subTotal}"></td>
+                    <td th:text="${encabezado.descuentottl}"></td>
+                    <td th:text="${encabezado.total}"></td>             
+                    <td>
+                        <div class="box-btn">
+                            <a class="text-ver btntext" th:href="@{/Encabezado/ver/{id}(id=${encabezado.id})}">Ver</a>
+                        
+                            <a class="text-editar btntext" th:href="@{/Encabezado/actualizar/{id}(id=${encabezado.id})}">Editar Factura</a>
+                        
+                            <a class="text-eliminar btntext" th:href="@{/Encabezado/eliminar/2/{id}(id=${encabezado.id})}">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="box-btn">
         <button  class= "btn btn-volver">
-            <a class="textEli" type="button" th:href="@{/}" >Volver</a></button>
-            <button>    
-            <a th:href="@{/Encabezado/Factura}" id="btn_Comprar" class= "btn_compra">Crear nueva factura</a>    
-            </button>
-             </div>
+            <a class="btntext" type="button" th:href="@{/}" >Volver</a>
+        </button>
+        
+        <button class= "btn btn-crear">    
+            <a class="btntext" th:href="@{/Encabezado/Factura}" id="btn_Comprar">Crear nueva factura</a>    
+        </button>
+    </div>
 </body>
 </html>

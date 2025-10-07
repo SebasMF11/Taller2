@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="/css/FacturaIndex.css">
+    <link rel="stylesheet" href="/css/Factura.css">
     <meta charset="UTF-8">
     <title>Factura - Encabezados</title>
 </head>
 <body>
-
-    <!-- 
-        Lo que falta
-    Que al agregar el mismo producto por segunda vez se actualice el detalle
-
-    -->
-
-    <h1 th:text="${titulo}"></h1>
-
-    <hr>
-    <div th:if="${Mensaje}">
-        <p th:text="${Mensaje}"></p>
+    <div class="centrar" >
+        <h1 th:text="${titulo}"></h1>
     </div>
-    
-    <div >
+
+    <div class="centrar">
+        <div id="mensaje" th:if="${Mensaje}">
+            <p th:text="${Mensaje}"></p>
+        </div>
+    </div>
+    <div id="box-table">
         <table>
             <tr>
                 <th colspan="7" th:text="${'Factura: ' + Encabezado.id}"></th>
@@ -73,36 +68,35 @@
                     <td>-</td>
                     <td><input type="number" min="0" th:field="*{descuento}"  required></td>
                     <td>-</td>
-                    <td><button type="submit" class="btn">Agregar</button></td>
+                    <td><button type="submit"  class= "btn btn-volver btntext">Agregar</button></td>
                 </form>
             </tr>
 
             <tr>
-                <th colspan="4">Subtotal</th>
+                <th class="textderecha" colspan="4">Subtotal</th>
                 <th colspan="3" th:text="${Encabezado.subTotal}"></th>
             </tr>
             <tr>
-                <th colspan="4">Total</th>
+                <th class="textderecha" colspan="4">Total</th>
                 <th colspan="3" th:text="${Encabezado.total}"></th>
             </tr>
             <tr>
-                <th colspan="4">Descuento total</th>
+                <th class="textderecha" colspan="4">Descuento total</th>
                 <th colspan="3" th:text="${Encabezado.descuentottl}"></th>
             </tr>
                 
         </table>
    
-        <div>
-            <a th:href="@{/Encabezado/eliminar/1/{id}(id=${Encabezado.id})}" id="btn_CancelarFactura" class= "btn">Cancelar Factura</a>
-        </div>
-        
-        <div>
-            <button>
-                <a th:href="@{/Detalle/finalizar/1/{id}(id=${Encabezado.id})}"> Finalizar Factura</a>
-            </button>
-        </div>
-
     </div> 
+    <div id="box-btn">
+        <button id="btn_cancelar" class="btn">
+            <a class="btntext" th:href="@{/Encabezado/eliminar/1/{id}(id=${Encabezado.id})}" >Cancelar Factura</a>
+        </button>
+    
+        <button id="btn_final" class="btn">
+            <a class="btntext" th:href="@{/Detalle/finalizar/1/{id}(id=${Encabezado.id})}"> Finalizar Factura</a>
+        </button>
+    </div>
 
 </body>
 </html>

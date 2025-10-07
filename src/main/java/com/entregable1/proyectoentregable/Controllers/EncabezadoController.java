@@ -41,12 +41,13 @@ public class EncabezadoController {
     @GetMapping("/Listar")
     public String Listar(Model model) {
         List<Encabezado> Enca = Encabezadodao.findAll();
+
+        model.addAttribute("titulo", "Lista de Facturas");
         model.addAttribute("Encabezados", new Encabezado());
         model.addAttribute("Encabezado", Enca);
         return "Factura/lista";
     }
     
-
     @GetMapping({"/Factura","/"})
     public String facturacliente(Model model) {
         model.addAttribute("Encabezado", new Encabezado());
@@ -136,7 +137,6 @@ public class EncabezadoController {
         return "redirect:/Encabezado/Factura";
     }
     
-   
     @GetMapping("/eliminar/{direccion}/{id}")
     public String eliminar (@PathVariable Long id,@PathVariable int direccion, RedirectAttributes redirectAttrs){
         Encabezadodao.delete(id);

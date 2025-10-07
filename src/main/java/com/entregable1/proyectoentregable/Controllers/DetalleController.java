@@ -41,7 +41,7 @@ public class DetalleController {
         }
 
         Producto producto = productoDao.findById(detalle.getIdProducto());
-
+        
         if (producto == null) {
             redirectAttrs.addFlashAttribute("Mensaje", "Error: Producto no encontrado"); 
             if(direccion == 1){
@@ -69,57 +69,28 @@ public class DetalleController {
             }
         }
 
-        boolean yaexiste = false;
+        Detalle yaexiste = verificarDetalle(detalle, encabezado);
 
-        List<Detalle> Detalles = detalleDao.findAll();
+        float subtotal = producto.getValorUnitario() * detalle.getCantidad();
+        float descuento = detalle.getDescuento();
+        float total = subtotal - descuento;
 
-        for(Detalle d : Detalles){
-            if(d.getIdProducto() == detalle.getIdProducto() 
-            && d.getIdEncabezado() == detalle.getIdEncabezado()){
-
-                if(detalle.getDescuento() == d.getDescuento()){
-                    yaexiste = true;
-
-                    detalle.setCantidad(detalle.getCantidad()+d.getCantidad());
-                    detalle.setValor(producto.getValorUnitario());
-
-                    float subtotal = producto.getValorUnitario() * detalle.getCantidad();
-
-                    detalle.setSubtotal(subtotal);
-
-                    if(detalle.getDescuento() > subtotal){
-                        detalle.setTotal(0);  
-                    }else{
-                        detalle.setTotal(subtotal - detalle.getDescuento());  
-                    }
-                    detalle.setId(d.getId());
-                    detalleDao.update(detalle);
-                }
-            }
-        }
-        
-        if (yaexiste == false){
+        if (yaexiste == null){
             detalle.setValor(producto.getValorUnitario());
-            float subtotal = producto.getValorUnitario() * detalle.getCantidad();
-            float descuento = detalle.getDescuento();
-            float total = subtotal - descuento;
-
             detalle.setSubtotal(subtotal);
             detalle.setTotal(total);
 
             detalleDao.save(detalle);
 
+            encabezado.setSubTotal(encabezado.getSubTotal() + detalle.getSubtotal());
+            encabezado.setDescuentottl(encabezado.getDescuentottl() + detalle.getDescuento());
+            encabezado.setTotal(encabezado.getTotal() + detalle.getTotal());
+            encabezadoDao.update(encabezado);
+
+            producto.setStock(producto.getStock() - detalle.getCantidad());
+            productoDao.update(producto);   
         }
 
-        // Actualizar stock
-        producto.setStock(producto.getStock() - detalle.getCantidad());
-        productoDao.update(producto);
-
-        // Actualizar encabezado
-        encabezado.setSubTotal(encabezado.getSubTotal() + detalle.getSubtotal());
-        encabezado.setDescuentottl(encabezado.getDescuentottl() + detalle.getDescuento());
-        encabezado.setTotal(encabezado.getTotal() + detalle.getTotal());
-        encabezadoDao.save(encabezado);
 
         redirectAttrs.addFlashAttribute("Mensaje", "Producto agregado correctamente");
         
@@ -164,14 +135,14 @@ public class DetalleController {
 
     @PostMapping("/actualizar")
     public String actualizar(@ModelAttribute Detalle detalle, RedirectAttributes redirectAttrs) {
-        Detalle existente = detalleDao.findById(detalle.getId());
+        Detalle DetExistente = detalleDao.findById(detalle.getId());
         Encabezado encabezado = encabezadoDao.findById(detalle.getIdEncabezado());
         
-        if (existente != null && encabezado != null) {
+        if (DetExistente != null && encabezado != null) {
             // Valores originales
-            float subtotalAnterior = existente.getSubtotal();
-            float descuentoAnterior = existente.getDescuento();
-            float totalAnterior = existente.getTotal();
+            float subtotalAnterior = DetExistente.getSubtotal();
+            float descuentoAnterior = DetExistente.getDescuento();
+            float totalAnterior = DetExistente.getTotal();
 
             Producto producto = productoDao.findById(detalle.getIdProducto());
             if (producto != null) {
@@ -183,21 +154,20 @@ public class DetalleController {
                 encabezado.setDescuentottl(encabezado.getDescuentottl() - descuentoAnterior + nuevoDescuento);
                 encabezado.setTotal(encabezado.getTotal() - totalAnterior + nuevoTotal);
 
-                existente.setCantidad(detalle.getCantidad());
-                existente.setDescuento(nuevoDescuento);
-                existente.setSubtotal(nuevoSubtotal);
-                existente.setTotal(nuevoTotal);
-                existente.setValor(producto.getValorUnitario());
+                DetExistente.setCantidad(detalle.getCantidad());
+                DetExistente.setDescuento(nuevoDescuento);
+                DetExistente.setSubtotal(nuevoSubtotal);
+                DetExistente.setTotal(nuevoTotal);
+                DetExistente.setValor(producto.getValorUnitario());
 
                 encabezadoDao.save(encabezado);
-                detalleDao.save(existente);
+                detalleDao.update(DetExistente);
             }
         }
 
         redirectAttrs.addFlashAttribute("Mensaje", "Factura actualizada correctamente.");
         return "redirect:/Encabezado/actualizar/" + detalle.getIdEncabezado();
     }
-
 
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable long id, RedirectAttributes redirectAttrs) {
@@ -224,4 +194,48 @@ public class DetalleController {
         return "redirect:/Encabezado/listar";
     }
 
+    public Detalle verificarDetalle(Detalle detalle, Encabezado encabezado){
+        Detalle yaexiste = null;
+
+        Producto producto = productoDao.findById(detalle.getIdProducto());
+
+        List<Detalle> Detalles = detalleDao.findAll();
+
+        for(Detalle d : Detalles){
+            if(d.getIdProducto().equals(detalle.getIdProducto()) 
+            && d.getIdEncabezado().equals(detalle.getIdEncabezado())){
+                    yaexiste = d;
+
+                    detalle.setCantidad(detalle.getCantidad() + d.getCantidad());
+
+                    detalle.setValor(producto.getValorUnitario());
+
+                    float subtotal = producto.getValorUnitario() * detalle.getCantidad();
+
+                    detalle.setSubtotal(subtotal);
+
+                    if(detalle.getDescuento() > subtotal){
+                        detalle.setTotal(0);  
+                    }else{
+                        detalle.setTotal(subtotal - detalle.getDescuento());  
+                    }
+                    detalle.setDescuento(d.getDescuento() + detalle.getDescuento());
+                    detalle.setId(d.getId());
+
+                    encabezado.setSubTotal(encabezado.getSubTotal() - d.getSubtotal() + detalle.getSubtotal());
+                    encabezado.setDescuentottl(encabezado.getDescuentottl() - d.getDescuento() + detalle.getDescuento());
+                    encabezado.setTotal(encabezado.getTotal() - d.getTotal() + detalle.getTotal());
+                    
+                    encabezadoDao.save(encabezado);
+                    detalleDao.update(detalle);
+                    
+                    producto.setStock(producto.getStock() + detalle.getCantidad() - d.getCantidad());
+                    productoDao.update(producto);  
+                    
+                    break;
+            }
+        }
+
+        return yaexiste;
+    }
 }

@@ -1,0 +1,120 @@
+body{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  padding-top: 5px;
+  margin: auto;
+}
+
+.centrar{
+  display: flex;
+  justify-content: center;
+}
+
+.textderecha{
+  text-align: end;
+}
+
+table, th, td, tr {
+  border-color: #1e1e1f;
+  border-radius: 1%;
+  padding: 10px;
+  border: 1px;
+  border-style:solid ;
+  border-collapse: collapse;
+}
+
+#box-table{
+  display: flex;
+  justify-content: center;
+}
+
+#box-btn{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.btntext{
+    color: white;
+    text-decoration: none;
+}
+
+.btn{
+    border: none;
+    border-radius: 5px;
+    padding: 8px 10px;
+}
+
+#btn_final{
+    background-color: rgb(15, 173, 128);
+}
+
+#btn_final:hover{
+    background-color: rgb(11, 126, 94);
+}
+
+#btn_cancelar{
+    background-color: rgb(66, 118, 202);
+}
+
+#btn_cancelar:hover{
+    background-color: rgb(43, 90, 164);
+}
+
+.btn-volver{
+  background-color: rgb(32, 202, 97);
+}
+
+.btn-volver:hover{
+  background-color: rgb(36, 186, 94);
+}
+
+.btn-crear{
+    background-color: rgb(74, 74, 255);
+}
+
+.btn-crear:hover{
+    background-color: rgb(44, 44, 207);
+}
+
+.btn-eliminar{
+  background-color: #f54235;
+}
+
+.btn-eliminar:hover{
+  background-color: #dc1c0e;
+}
+
+.text-ver{
+  background-color: #31ceae;
+  padding: 5px 7px;
+  border-radius: 8px;
+}
+
+.text-ver:hover{
+  background-color: #17ab8d;
+}
+
+.text-editar{
+  background-color: #358bf5;
+  padding: 5px 7px;
+  border-radius: 8px;
+}
+
+.text-editar:hover{
+  background-color: #0363d8;
+}
+
+
+.text-eliminar{
+  background-color: #f54235;
+  padding: 5px 7px;
+  border-radius: 8px;
+
+}
+
+.text-eliminar:hover{
+  background-color: #dc1c0e;
+}

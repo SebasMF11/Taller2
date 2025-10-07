@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="/css/FacturaIndex.css">
+    <link rel="stylesheet" href="/css/Factura.css">
     <meta charset="UTF-8">
     <title>Factura - Encabezados</title>
 </head>
 <body>
 
-    <!-- 
-        Lo que falta:
-        - Que al agregar el mismo producto por segunda vez se actualice el detalle
-    -->
+    <div class="centrar" >
+        <h1 th:text="${titulo}"></h1>
+    </div>
 
-    <h1 th:text="${titulo}"></h1>
-
-    <hr>
-    <div th:if="${Mensaje}">
-        <p th:text="${Mensaje}"></p>
+   <div class="centrar">
+        <div id="mensaje" th:if="${Mensaje}">
+            <p th:text="${Mensaje}"></p>
+        </div>
     </div>
     
-    <div>
+    <div  id="box-table">
         <table>
             <tr>
                 <th colspan="8" th:text="${'Factura: ' + Encabezado.id}"></th>
@@ -69,10 +67,10 @@
                     <td th:text="${Detalle.total}"></td>
 
                     <td>
-                        <button type="submit" class="btn">Actualizar</button>
-                        <button>    
+                        <button type="submit" class="btn btn-crear btntext">Actualizar</button>
 
-                         <a th:href="@{/Detalle/eliminar/{id}(id=${Detalle.id})}" class="btn">Eliminar</a>   
+                        <button  class="btn btn-eliminar">   
+                            <a th:href="@{/Detalle/eliminar/{id}(id=${Detalle.id})}" class="btntext">Eliminar</a>   
                         </button>
                     </td>
                 </form>
@@ -92,7 +90,7 @@
                     <td><input type="number" min="0" th:field="*{descuento}" required></td>
                     <td>-</td>
                     <td>-</td>
-                    <td><button type="submit" class="btn">Agregar</button></td>
+                    <td><button type="submit" class="btn btn-volver btntext">Agregar</button></td>
                 </form>
             </tr>
 
@@ -109,11 +107,12 @@
                 <th colspan="4" th:text="${Encabezado.descuentottl}"></th>
             </tr>
         </table>
-        <div>
-            <button>
-                <a th:href="@{/Detalle/finalizar2/{id}(id=${Encabezado.id})}">Finalizar Factura</a>
-            </button>
-        </div>
     </div> 
+    <div id="box-btn" class="centrar">
+        <button id="btn_final" class="btn">
+            <a class="btntext" th:href="@{/Detalle/finalizar/2/{id}(id=${Encabezado.id})}">Finalizar Factura</a>
+        </button>
+    </div>
+
 </body>
 </html>

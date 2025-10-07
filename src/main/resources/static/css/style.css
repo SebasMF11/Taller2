@@ -1,7 +1,6 @@
 body{
     padding: 60px ;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    justify-content: center;
 }
 
 table{
@@ -9,12 +8,12 @@ table{
 }
 
 .btn{
-  padding: 12px 20px;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
+    padding: 12px 20px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 #btn_cliente{
@@ -30,7 +29,7 @@ table{
 }
 
 #btn_producto:hover{
-    background-color: rgb(60, 108, 185);
+    background-color: rgb(43, 90, 164);
 }
 
 #btn_compra{

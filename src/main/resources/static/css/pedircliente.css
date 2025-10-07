@@ -14,20 +14,20 @@ body{
 }
 
 .btn-validar{
-    background-color: rgb(150, 172, 178);
+    background-color: rgb(74, 74, 255);
 }
 
 .btn-validar:hover{
-    background-color: rgb(118, 137, 142);
+    background-color: rgb(44, 44, 207);
 }
 
 .btn-volver{
     padding: 7px 15px;
-    background-color: rgb(74, 74, 255);
+  background-color: rgb(32, 202, 97);
 }
 
 .btn-volver:hover{
-    background-color: rgb(44, 44, 207);
+  background-color: rgb(36, 186, 94);
 }
 
 .text-btn{
@@ -35,11 +35,15 @@ body{
   color: white;
 }
 
+.centrar{
+    display: flex;
+    justify-content: center;
+}
+
 .box{
     width: 300px;
     height: 220px;
     padding: 20px;
-    justify-content: center;
     gap: 0px;
     margin: auto;
     background-color: rgb(255, 255, 255);
@@ -59,5 +63,6 @@ body{
 }
 
 .box-cliente{
-    padding-left: 7%;
+    display: flex;
+    justify-content: center;
 }

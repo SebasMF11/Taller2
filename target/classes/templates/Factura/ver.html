@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="/css/FacturaIndex.css">
+    <link rel="stylesheet" href="/css/Factura.css">
     <meta charset="UTF-8">
     <title>Factura - Encabezados</title>
 </head>
 <body>
 
-    <h1 th:text="${titulo}"></h1>
+    <div class="centrar" >
+        <h1 th:text="${titulo}"></h1>
+    </div>
 
-    <hr>
-    <!-- Mensajes -->
-    <div th:if="${Mensaje}">
-        <p th:text="${Mensaje}"></p>
+   <div class="centrar">
+        <div id="mensaje" th:if="${Mensaje}">
+            <p th:text="${Mensaje}"></p>
+        </div>
     </div>
     
-    <div >
+    
+    <div id="box-table">
         <table>
             <tr>
                 <th colspan="6" th:text="${'Factura: ' + Encabezado.id}"></th>
@@ -63,22 +66,24 @@
             </tr>
                 
         </table>
-   
-        <div>
-            <button  class= "btn">
-                <a th:href="@{/Encabezado/eliminar/1/{id}(id=${Encabezado.id})}" 
-                id="btn_CancelarFactura" class= "btn">Eliminar Factura</a>
-            </button>
 
-            <button  class= "btn"><a th:href="@{/Encabezado/actualizar/{id}(id=${Encabezado.id})}">Editar Factura</a>
-            </button>
-        </div>
-        
+    </div>    
+    
+    <div id="box-btn" class="centrar">
+        <button  class= "btn btn-eliminar">
+            <a th:href="@{/Encabezado/eliminar/2/{id}(id=${Encabezado.id})}" 
+            id="btn_CancelarFactura" class= "btntext">Eliminar Factura</a>
+        </button>
 
+        <button  class= "btn btn-crear">
+            <a th:href="@{/Encabezado/actualizar/{id}(id=${Encabezado.id})}" class="btntext">Editar Factura</a>
+        </button>
+    </div>
+
+    <div id="box-btn" class="centrar">
         <button  class= "btn btn-volver">
-            <a class="textEli" type="button" th:href="@{/Encabezado/Listar}" >Volver</a></button>
-
-    </div> 
+            <a class="btntext" type="button" th:href="@{/Encabezado/Listar}" >Volver</a></button>
+    </div>
 
 </body>
 </html>
